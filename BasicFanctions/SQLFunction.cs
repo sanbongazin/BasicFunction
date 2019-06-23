@@ -89,8 +89,31 @@ namespace BasicFunction
 
 
 
-        public static void SQLSearch(string serchWord, string DBName, string serchCategoryName, string serchCategory, string serchMaker){}
+        public static SqlDataReader SQLSearch(string serchWord, string DBName, string serchCategoryName, string serchCategory, string serchMaker)
+        {
+            try
+            {
 
+                SQLConnection();
+                cmd.CommandText = "SELECT * FROM " + DBName + " WHERE " + serchCategoryName + " IN (SELECT " + serchCategoryName + "=N" + "'" + serchCategory + "'" + " WHERE ProdsName LIKE N'%" + serchWord + "%')";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Connection = con;
+                dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Console.WriteLine(dr["ProdsName"].ToString() + dr["Category1"].ToString());
+                }
+                dr.Close();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return dr;
+        }
 
     }
 
