@@ -53,8 +53,8 @@ namespace BasicFunction
                 {
                     Console.WriteLine(dr["ProdsName"].ToString() + ":"+dr["Category1"].ToString());
                 }
-                dr.Close();
-                con.Close();
+                //dr.Close();
+                //con.Close();
 
             }
             catch(Exception e) {
@@ -63,22 +63,22 @@ namespace BasicFunction
 
         }
 
-        public static SqlDataReader SQLSearch(string serchWord, string DBName, string serchCategoryName, string serchCategory){
+        public static SqlDataReader SQLSearch(string serchWord, string DBName, string serchCategory, string serchCategoryWord){
             try
             {
 
                 SQLConnection();
-                cmd.CommandText = "SELECT * FROM " + DBName + " WHERE "+ serchCategoryName+" IN (SELECT "+serchCategoryName+ "=N"+ "'" + serchCategory + "'" + " WHERE ProdsName LIKE N'%" + serchWord + "%')";
+                cmd.CommandText = "SELECT * FROM " + DBName + " WHERE "+ serchCategory+" IN (SELECT "+serchCategory+ "=N"+ "'" + serchCategoryWord + "'" + " WHERE ProdsName LIKE N'%" + serchWord + "%')";
                 cmd.CommandType = System.Data.CommandType.Text;
 
                 cmd.Connection = con;
                 dr = cmd.ExecuteReader();
 
-                while(dr.Read()) {
-                    Console.WriteLine(dr["ProdsName"].ToString()+dr["Category1"].ToString());
-                }
-                dr.Close();
-                con.Close();
+                //while(dr.Read()) {
+                //    Console.WriteLine(dr["ProdsName"].ToString()+":"+dr["Category1"].ToString());
+                //}
+                //dr.Close();
+                //con.Close();
             }
             catch (Exception e)
             {
@@ -89,24 +89,24 @@ namespace BasicFunction
 
 
 
-        public static SqlDataReader SQLSearch(string serchWord, string DBName, string serchCategoryName, string serchCategory, string serchMaker)
+        public static SqlDataReader SQLSearch(string serchWord, string DBName, string serchCategory1,string serchCategory2, string serchCategoryWord1, string serchCategoryWord2)
         {
             try
             {
 
                 SQLConnection();
-                cmd.CommandText = "SELECT * FROM " + DBName + " WHERE " + serchCategoryName + " IN (SELECT " + serchCategoryName + "=N" + "'" + serchCategory + "'" + " WHERE ProdsName LIKE N'%" + serchWord + "%')";
+                cmd.CommandText = "SELECT * FROM "+ DBName +" WHERE "+serchCategory1+" IN (SELECT "+serchCategory1+" = N'"+serchCategoryWord1+"' WHERE "+serchCategory2+" IN(SELECT "+serchCategory2+" = N'"+serchCategoryWord2+"' Where ProdsName LIKE N'%"+serchWord+"%'))";
                 cmd.CommandType = System.Data.CommandType.Text;
 
                 cmd.Connection = con;
                 dr = cmd.ExecuteReader();
 
-                while (dr.Read())
-                {
-                    Console.WriteLine(dr["ProdsName"].ToString() + dr["Category1"].ToString());
-                }
-                dr.Close();
-                con.Close();
+                //while (dr.Read())
+                //{
+                //    Console.WriteLine(dr["ProdsName"].ToString() +":"+ dr["Category1"].ToString());
+                //}
+                //dr.Close();
+                //con.Close();
             }
             catch (Exception e)
             {
@@ -115,6 +115,12 @@ namespace BasicFunction
             return dr;
         }
 
+        public static void SQLClosing() {
+            dr.Close();
+            con.Close();
+
+            Console.WriteLine("Closed");
+        }
     }
 
 

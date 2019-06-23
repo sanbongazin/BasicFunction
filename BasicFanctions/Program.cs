@@ -16,9 +16,17 @@ namespace BasicFunctions
 
             while (dr.Read())
             {
-                Console.WriteLine(dr["ProdsName"].ToString() + dr["Category1"].ToString());
+                Console.WriteLine(dr["ProdsName"].ToString() +":"+ dr["Category1"].ToString());
             }
-           
+
+            dr = SQLFunction.SQLSearch("スムージー", "dbo.productDB", "Category1", "Category2", "ソフトドリンク", "野菜ジュース");
+
+            while (dr.Read())
+            {
+                Console.WriteLine(dr["ProdsName"].ToString() + ":"+dr["Category1"].ToString());
+            }
+
+            SQLFunction.SQLClosing();
         }
     }
 }
