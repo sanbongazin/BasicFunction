@@ -1,12 +1,24 @@
 ﻿using System;
+using BasicFunction;
 
-namespace BasicFanctions
+namespace BasicFunctions
 {
     class MainClass
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //SQLFunction.SQLConnection();
+            SQLFunction.SQLSearch("放課後","dbo.ProductDB");
+            Console.WriteLine();
+
+            var dr = SQLFunction.SQLSearch("放課後", "dbo.ProductDB","Category1","紅茶");
+
+
+            while (dr.Read())
+            {
+                Console.WriteLine(dr["ProdsName"].ToString() + dr["Category1"].ToString());
+            }
+           
         }
     }
 }
